@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mazen Mahmoud — Cyber Security Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0A0E14;
+    --panel: #10161F;
+    --panel-2: #0D1218;
+    --line: #212B38;
+    --text: #E7ECF3;
+    --dim: #8A99AD;
+    --amber: #FFB454;
+    --green: #7EE8B8;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity:0.12;
+    pointer-events:none;
+    z-index:0;
+  }
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:920px; margin:0 auto; padding:0 24px; position:relative; z-index:1;}
+  ::selection{background:var(--amber); color:#0A0E14;}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--amber); outline-offset:3px;}
+
+  /* Terminal chrome top bar */
+  .titlebar{
+    border-bottom:1px solid var(--line);
+    background:var(--panel-2);
+    position:sticky; top:0; z-index:10;
+  }
+  .titlebar-inner{
+    max-width:920px; margin:0 auto; padding:0 24px;
+    display:flex; align-items:center; justify-content:space-between;
+    height:52px;
+  }
+  .dots{display:flex; gap:7px;}
+  .dots span{width:10px; height:10px; border-radius:50%; background:#2A3646; display:inline-block;}
+  .path{
+    font-family:var(--mono); font-size:12.5px; color:var(--dim);
+  }
+  nav{display:flex; gap:22px; font-family:var(--mono); font-size:13px;}
+  nav a{color:var(--dim); transition:color .15s;}
+  nav a:hover{color:var(--amber);}
+
+  /* Hero */
+  .hero{padding:88px 0 72px;}
+  .prompt-line{
+    font-family:var(--mono); font-size:13.5px; color:var(--green);
+    margin-bottom:22px;
+  }
+  .prompt-line .sym{color:var(--dim);}
+  .cursor{
+    display:inline-block; width:8px; height:16px; background:var(--amber);
+    margin-left:4px; vertical-align:-3px;
+    animation:blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+  .hero-grid{display:grid; grid-template-columns:1fr 176px; gap:48px; align-items:center;}
+  .hero h1{
+    font-size:44px; font-weight:600; letter-spacing:-0.5px; line-height:1.15;
+    margin-bottom:14px;
+  }
+  .hero .role{
+    font-family:var(--mono); color:var(--amber); font-size:16px; margin-bottom:20px;
+  }
+  .hero p.bio{color:var(--dim); font-size:15.5px; max-width:56ch;}
+  .hero-actions{display:flex; gap:14px; margin-top:30px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono); font-size:13px; padding:11px 18px;
+    border:1px solid var(--line); border-radius:3px; display:inline-flex; align-items:center; gap:8px;
+    transition:border-color .15s, color .15s;
+  }
+  .btn-primary{background:var(--amber); color:#141414; border-color:var(--amber); font-weight:600;}
+  .btn-primary:hover{background:#ffc574;}
+  .btn-ghost{color:var(--text);}
+  .btn-ghost:hover{border-color:var(--amber); color:var(--amber);}
+  .avatar-frame{
+    width:176px; height:176px; border-radius:6px; overflow:hidden;
+    border:1px solid var(--line); position:relative; background:var(--panel);
+  }
+  .avatar-frame img{width:100%; height:100%; object-fit:cover; display:block; filter:grayscale(15%);}
+  .avatar-frame .tag{
+    position:absolute; bottom:0; left:0; right:0; background:rgba(10,14,20,0.82);
+    font-family:var(--mono); font-size:10px; color:var(--green); padding:5px 8px; letter-spacing:0.3px;
+    border-top:1px solid var(--line);
+  }
+
+  section{padding:56px 0; border-top:1px solid var(--line);}
+  .section-head{
+    font-family:var(--mono); font-size:13px; color:var(--dim); margin-bottom:28px;
+    display:flex; align-items:baseline; gap:10px;
+  }
+  .section-head .file{color:var(--amber);}
+  h2.title{font-size:26px; font-weight:600; margin-bottom:6px;}
+
+  /* Skills: scan-output style */
+  .scan{font-family:var(--mono); font-size:13px; border:1px solid var(--line); border-radius:4px; background:var(--panel); overflow:hidden;}
+  .scan-row{display:grid; grid-template-columns:170px 1fr; border-bottom:1px solid var(--line);}
+  .scan-row:last-child{border-bottom:none;}
+  .scan-key{padding:14px 16px; color:var(--green); border-right:1px solid var(--line); background:var(--panel-2);}
+  .scan-val{padding:14px 16px; color:var(--text); font-family:var(--sans); font-size:14.5px;}
+
+  /* Projects */
+  .proj{
+    border:1px solid var(--line); border-radius:4px; padding:22px 24px; margin-bottom:16px; background:var(--panel);
+  }
+  .proj-head{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap;}
+  .proj h3{font-size:17px; font-weight:600;}
+  .status{
+    font-family:var(--mono); font-size:11px; color:var(--green); border:1px solid #26493B;
+    background:#0F1E18; padding:3px 9px; border-radius:20px; white-space:nowrap;
+  }
+  .proj p{color:var(--dim); font-size:14.5px;}
+  .proj .stack{margin-top:12px; font-family:var(--mono); font-size:12px; color:var(--amber);}
+
+  /* Certifications timeline */
+  .timeline{border-left:1px solid var(--line); margin-left:6px;}
+  .tl-item{position:relative; padding:0 0 26px 26px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{
+    content:""; position:absolute; left:-5px; top:4px; width:9px; height:9px;
+    border-radius:50%; background:var(--amber); border:2px solid var(--bg);
+  }
+  .tl-date{font-family:var(--mono); font-size:12px; color:var(--dim); margin-bottom:3px;}
+  .tl-name{font-size:15px; font-weight:500;}
+  .tl-org{color:var(--dim); font-size:13.5px;}
+
+  /* Training grid */
+  .train-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .train-card{border:1px solid var(--line); border-radius:4px; padding:16px 18px; background:var(--panel);}
+  .train-card h4{font-size:14.5px; font-weight:600; margin-bottom:6px; color:var(--amber); font-family:var(--mono);}
+  .train-card ul{color:var(--dim); font-size:13.5px; padding-left:18px;}
+  .train-card li{margin-bottom:3px;}
+
+  /* Soft skills / languages */
+  .pill-row{display:flex; flex-wrap:wrap; gap:9px;}
+  .pill{
+    font-family:var(--mono); font-size:12.5px; border:1px solid var(--line); border-radius:20px;
+    padding:6px 13px; color:var(--dim);
+  }
+
+  /* Contact */
+  .contact-box{
+    border:1px solid var(--line); border-radius:4px; background:var(--panel); padding:28px;
+  }
+  .contact-box .ok{font-family:var(--mono); color:var(--green); font-size:13px; margin-bottom:16px;}
+  .contact-rows{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .crow{font-family:var(--mono); font-size:13.5px;}
+  .crow .k{color:var(--dim); display:block; font-size:11px; margin-bottom:4px;}
+  .crow a{color:var(--text); border-bottom:1px dotted var(--line);}
+  .crow a:hover{color:var(--amber); border-color:var(--amber);}
+
+  footer{
+    padding:30px 0 50px; font-family:var(--mono); font-size:12px; color:#516070; text-align:center;
+  }
+
+  @media (max-width: 680px){
+    .hero-grid{grid-template-columns:1fr; text-align:left;}
+    .avatar-frame{order:-1; width:120px; height:120px;}
+    .hero h1{font-size:32px;}
+    .scan-row{grid-template-columns:130px 1fr;}
+    .train-grid{grid-template-columns:1fr;}
+    .contact-rows{grid-template-columns:1fr;}
+    nav{gap:14px; font-size:11.5px;}
+    .titlebar-inner{height:48px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="titlebar">
+  <div class="titlebar-inner">
+    <div class="dots"><span></span><span></span><span></span></div>
+    <div class="path">mazen@portfolio: ~</div>
+    <nav>
+      <a href="#skills">skills</a>
+      <a href="#projects">projects</a>
+      <a href="#certifications">certs</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap hero">
+  <div class="prompt-line"><span class="sym">$</span> whoami<span class="cursor"></span></div>
+  <div class="hero-grid">
+    <div>
+      <h1>Mazen Mahmoud</h1>
+      <div class="role">Junior Penetration Tester — Cyber Security Student</div>
+      <p class="bio">Third-year Computer Science student at Arab Open University, majoring in Cyber Security. Hands-on with penetration testing, vulnerability assessment, bug bounty reconnaissance, Linux administration, and enterprise networking.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#contact">Get in touch</a>
+        <a class="btn btn-ghost" href="#projects">View work</a>
+      </div>
+    </div>
+    <div class="avatar-frame">
+      <img src="profile.jpg" alt="Mazen Mahmoud">
+      <div class="tag">Cairo, EG</div>
+    </div>
+  </div>
+</div>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">$ cat <span class="file">skills.md</span></div>
+    <h2 class="title">Technical skills</h2>
+    <br>
+    <div class="scan">
+      <div class="scan-row">
+        <div class="scan-key">offensive_sec</div>
+        <div class="scan-val">Penetration Testing · Vulnerability Assessment · Bug Bounty · Web &amp; API Security Testing · OWASP Top 10</div>
+      </div>
+      <div class="scan-row">
+        <div class="scan-key">tooling</div>
+        <div class="scan-val">Burp Suite, Nmap, Nuclei, Gobuster, Subfinder, httpx, Metasploit</div>
+      </div>
+      <div class="scan-row">
+        <div class="scan-key">networking</div>
+        <div class="scan-val">TCP/IP, Routing, Switching, OSPF, NAT/PAT, VLANs</div>
+      </div>
+      <div class="scan-row">
+        <div class="scan-key">systems</div>
+        <div class="scan-val">Linux, Ubuntu, Red Hat, Python, Java, Bash fundamentals</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head">$ ls <span class="file">projects/</span></div>
+    <h2 class="title">Practical work</h2>
+    <br>
+
+    <div class="proj">
+      <div class="proj-head">
+        <h3>Bug bounty reconnaissance pipeline</h3>
+        <span class="status">practicing</span>
+      </div>
+      <p>Built and ran a full recon workflow — subdomain enumeration, deduplication, live-host detection with httpx-toolkit, URL collection via waybackurls / katana / gau, and subdomain takeover analysis with Subzy — including manual DNS verification to separate real findings from false positives on live targets.</p>
+      <div class="stack">subfinder · httpx-toolkit · gau · katana · subzy</div>
+    </div>
+
+    <div class="proj">
+      <div class="proj-head">
+        <h3>Metasploitable 2 vulnerability assessment</h3>
+        <span class="status">completed</span>
+      </div>
+      <p>Worked through a complete vulnerability assessment lab on Metasploitable 2, covering service enumeration, vulnerability identification, and exploitation fundamentals in an isolated environment.</p>
+      <div class="stack">nmap · metasploit · kali linux</div>
+    </div>
+
+    <div class="proj">
+      <div class="proj-head">
+        <h3>Web &amp; API / network security labs</h3>
+        <span class="status">ongoing</span>
+      </div>
+      <p>Authorized training-environment testing of web applications and APIs with Burp Suite, alongside CCNA lab work on routing, switching, OSPF, NAT/PAT, and access security troubleshooting.</p>
+      <div class="stack">burp suite · cisco packet tracer</div>
+    </div>
+  </div>
+</section>
+
+<section id="certifications">
+  <div class="wrap">
+    <div class="section-head">$ tail -f <span class="file">certifications.log</span></div>
+    <h2 class="title">Certifications</h2>
+    <br>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">Oct – Dec 2025</div>
+        <div class="tl-name">CCNA: Enterprise Networking, Security &amp; Automation</div>
+        <div class="tl-org">Cisco</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Aug – Sep 2025</div>
+        <div class="tl-name">CCNA: Switching, Routing, and Wireless Essentials</div>
+        <div class="tl-org">Cisco</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Jun – Jul 2025</div>
+        <div class="tl-name">CCNA: Introduction to Networks</div>
+        <div class="tl-org">Cisco</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Jul – Sep 2024</div>
+        <div class="tl-name">CompTIA Network+</div>
+        <div class="tl-org">CompTIA</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2023 – 2024</div>
+        <div class="tl-name">Introduction to Cybersecurity</div>
+        <div class="tl-org">IBM</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Oct – Dec 2023</div>
+        <div class="tl-name">Programming Fundamentals — Python &amp; Java</div>
+        <div class="tl-org">AOU Training Center</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">$ cat <span class="file">training.json</span></div>
+    <h2 class="title">Training &amp; internships</h2>
+    <br>
+    <div class="train-grid">
+      <div class="train-card">
+        <h4>DEPI</h4>
+        <ul><li>Vulnerability Analyst and Penetration Tester — hands-on VA/PT training</li></ul>
+      </div>
+      <div class="train-card">
+        <h4>Mahara-Tech</h4>
+        <ul>
+          <li>Ubuntu Linux Essentials</li>
+          <li>Red Hat System Administration I &amp; II</li>
+        </ul>
+      </div>
+      <div class="train-card">
+        <h4>Mahara-Tech</h4>
+        <ul>
+          <li>Programming Fundamentals — Python &amp; Java</li>
+          <li>Bug Bounty · Penetration Testing</li>
+        </ul>
+      </div>
+      <div class="train-card">
+        <h4>AOU Career Center</h4>
+        <ul><li>Upskill Program — communication, leadership, teamwork, critical thinking, problem solving</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">$ cat <span class="file">about.json</span></div>
+    <h2 class="title">Education &amp; more</h2>
+    <br>
+    <p style="margin-bottom:20px; font-size:14.5px; color:var(--dim);">
+      <strong style="color:var(--text);">Faculty of Computer Studies, Arab Open University</strong> — Computer Science, Cyber Security major · 2023 – 2027
+    </p>
+    <div style="margin-bottom:18px;">
+      <div class="tl-date" style="margin-bottom:8px;">soft skills</div>
+      <div class="pill-row">
+        <span class="pill">Communication</span>
+        <span class="pill">Teamwork</span>
+        <span class="pill">Leadership</span>
+        <span class="pill">Critical Thinking</span>
+        <span class="pill">Problem Solving</span>
+        <span class="pill">Time Management</span>
+      </div>
+    </div>
+    <div>
+      <div class="tl-date" style="margin-bottom:8px;">languages</div>
+      <div class="pill-row">
+        <span class="pill">Arabic — Native</span>
+        <span class="pill">English — Very Good</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head">$ nc <span class="file">connect --contact</span></div>
+    <h2 class="title">Let's talk</h2>
+    <br>
+    <div class="contact-box">
+      <div class="ok">✓ connection open — response time: usually within a day</div>
+      <div class="contact-rows">
+        <div class="crow"><span class="k">email</span><a href="mailto:mazen.monier.sec@gmail.com">mazen.monier.sec@gmail.com</a></div>
+        <div class="crow"><span class="k">phone</span><a href="tel:+201068954021">+20 106 895 4021</a></div>
+        <div class="crow"><span class="k">linkedin</span><a href="https://linkedin.com/in/mazen-mounier1" target="_blank" rel="noopener">linkedin.com/in/mazen-mounier1</a></div>
+        <div class="crow"><span class="k">location</span><span>Cairo, Egypt</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>Mazen Mahmoud · Cyber Security Portfolio · 2026</footer>
+
+</body>
+</html>
